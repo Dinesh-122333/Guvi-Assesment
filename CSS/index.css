@@ -1,0 +1,35 @@
+.title{
+    margin-top: 10%;
+    margin-bottom: 10%;
+    margin-left: 40%;
+    margin-right: 25%;
+    position: absolute;
+}
+
+.inner{
+    text-decoration: none;
+    color: black;
+}
+
+.navbar {
+    position: absolute;
+    box-shadow: 2px 2px 10px #7ac6fc;
+}
+
+img{
+    height: 400px;
+    width: 350px;
+    margin-left: 30px;
+    margin-top: 50px;
+}
+
+.login-page{
+    margin-left: 45%;
+    margin-top:250px;
+    position: absolute;
+    background-color: rgb(112, 253, 156);
+    color:black;
+    border-color: black;
+    border-radius: 20px;
+    padding: 5px 15px;
+}
