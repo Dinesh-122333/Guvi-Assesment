@@ -23,21 +23,22 @@ body {
 }
 
 /* Profile title styles */
-.p-title {
-    padding: 30px;
-}
 
-/* Profile description styles */
-.description {
-    font-size: 20px;
-    color: slategrey;
-    padding: 30px;
-}
 
+
+.container {
+    
+    background-color:bisque; 
+    padding: 20px; 
+    border-radius: 20px; 
+    box-shadow: 2px 2px 50px rgba(249, 172, 28, 0.1);
+    margin: 50px 0px;
+}
 /* Profile detail styles */
 #firstname, #lastname, #email, #phone {
     color: black;
     font-weight: 700;
+    
 }
 
 /* for responsive website */
@@ -45,8 +46,8 @@ body {
     .p-title {
         padding: 30px;
     }
-    .description {
-        padding: 20px;
-        font-size: 18px;
+    .profilearea{
+        padding-left: 10%;
+        padding-right: 10%;
     }
 }

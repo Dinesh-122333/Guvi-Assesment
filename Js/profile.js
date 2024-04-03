@@ -1,15 +1,55 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var userDataJSON = localStorage.getItem('userEmail');
+    var updateForm = document.getElementById('updateForm');
+    var emailField = document.getElementById('email');
     
-    var userData = JSON.parse(userDataJSON);
-    
-    // sending data to profile.html
-    if (userData) {
-        document.getElementById('firstname').innerText =  userData.Firstname;
-        document.getElementById('lastname').innerText =  userData.Lastname;
-        document.getElementById('email').innerText = userData.Email;
-        document.getElementById('phone').innerText = userData['Phone Number'];
+    if (updateForm) {
+        // Fetch user data and populate the form
+        fetchUserData();
+
+        updateForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData(updateForm);
+            
+            // Send update request using fetch API
+            fetch('./php/update.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    window.alert("Profile updated successfully");
+                    // Fetch and update user data after successful update
+                    fetchUserData();
+                } else {
+                    window.alert("Failed to update profile");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
     } else {
-        console.error("No user data found in local storage.");
+        console.error("Update form not found");
+    }
+
+    function fetchUserData() {
+        // Fetch user data from database
+        fetch('./php/get_user.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Populate form fields with user data
+                document.getElementById('firstName').value = data.user.Firstname;
+                document.getElementById('lastName').value = data.user.Lastname;
+                document.getElementById('email').value = data.user.Email;
+                document.getElementById('phone').value = data.user.PhoneNumber;
+            } else {
+                console.error("Failed to fetch user data");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
 });

@@ -4,51 +4,70 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Profile Page</title>
     <link rel="stylesheet" href="./CSS/profile.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg sticky-top" style="background-color: #e3f2fd;">
-        <div class="container-fluid">
-          <a class="navbar-brand fw-semibold fs-3" style ="color:sandybrown" href="./index.html">GUVI PROJECT</a>
-          <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg sticky-top" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-semibold fs-3" style="color: sandybrown" href="./index.html">GUVI PROJECT</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="./login.html">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./register.html">Registeration</a>
-              </li>
-              
-              
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="./login.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./register.html">Registration</a>
+                </li>
             </ul>
-            
-          </div>
         </div>
-      </nav>
-    <h1 class="p-title">Profile Page</h1>
-    <div><p class="description">
-        Hello, I'm <span id = "firstname"></span> <span id = "lastname"></span>,
-        deeply passionate about web and software development. 
-        I've completed numerous projects focusing on Frontend 
-        Development, and gained valuable experience as a web developer intern at Pantech e-learning.
-        My expertise spans HTML, CSS, JavaScript, Bootstrap, and React JS. 
-        Currently, I'm expanding my skills by delving into Node.js, TypeScript, and more. 
-        I thrive on challenges and am dedicated to continuously enhancing my skills in order 
-        to deliver top-notch solutions. Looking forward to contributing my 
-        knowledge and expertise to exciting projects in the future. And this is my mail <span id="email"></span> and  
-        phone number <span id ="phone"></span> to connect with me</p>
-
     </div>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src = "./Js/profile.js"></script>
-    <script src="./Js/user.js"></script>
+</nav>
+
+
+<!-- Add an id to the form -->
+<div class="profilearea">
+  <div class="container">
+    <div class="row justify-content-center">
+      <h1 class="row justify-content-center">Profile Page</h1>
+        <div class="col-md-6">
+            <div class="profilearea">
+                <form id="updateForm" method="post">
+                    <!-- Add ids to form fields -->
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" name="phone">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./Js/profile.js"></script>
+<script src="./Js/user.js"></script>
 </body>
 </html>

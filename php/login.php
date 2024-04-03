@@ -35,6 +35,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     else{
         echo json_encode(array("userFound" => "false"));
     }
+} else {
+    // If the request method is not POST, return an error
+    http_response_code(405); // Method Not Allowed
+    echo "Only POST requests are allowed!";
 }
 
 $mysqlConn->close();

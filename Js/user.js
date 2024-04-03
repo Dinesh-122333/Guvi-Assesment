@@ -4,51 +4,50 @@ function getUser() {
 
     if (user) {
         try {
-            
             return {
                 loggedIn: user !== null
             };
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Error parsing user data as JSON:', error);
         }
     }
     return { loggedIn: false };
 }
+
 function saveUser(user) {
     localStorage.setItem('userEmail', JSON.stringify(user));
 }
+
 function logoutUser() {
     localStorage.removeItem('userEmail');
 }
 
-// using navigation for session
+// Using navigation for session
 function updateNavigation(user) {
     var navigation = document.querySelector('.navbar ul');
     if (navigation) {
         if (user.loggedIn) {
             var dashboardItem = document.createElement('li');
             dashboardItem.classList.add("nav-item");
-            dashboardItem.innerHTML ='<a id="dash" class="nav-link" href="./profile.html">Profile</a>';
+            dashboardItem.innerHTML = '<a id="dash" class="nav-link" href="./profile.html">Profile</a>';
             navigation.appendChild(dashboardItem);
 
             var logoutItem = document.createElement('li');
             logoutItem.classList.add("nav-item");
-            logoutItem.innerHTML = '<a id="logout" class="nav-link" href="./profile.html">Logout</a>';
+            logoutItem.innerHTML = '<a id="logout" class="nav-link" href="#">Logout</a>';
             navigation.appendChild(logoutItem);
             var logoutButton = document.getElementById('logout');
             if (logoutButton) {
                 logoutButton.addEventListener('click', function () {
                     logoutUser();
                     window.alert("Logout Successful");
-                    window.location.href = './login.html'; 
+                    window.location.href = 'index.html'; // Redirect to index page after logout
                 });
             }
-        }
-        else {
-            var dashboardItem = document.querySelector('a[href="./dashboard.html"]');
+        } else {
+            var dashboardItem = document.querySelector('a[href="./index.html"]');
             if (dashboardItem && dashboardItem.parentElement) {
-                dashboardItem.parentElement.remove();``
+                dashboardItem.parentElement.remove();
             }
             var logoutItem = document.querySelector('#logout');
             if (logoutItem && logoutItem.parentElement) {
@@ -57,8 +56,8 @@ function updateNavigation(user) {
         }
     }
 }
+
 document.addEventListener('DOMContentLoaded', function () {
     var user = getUser();
     updateNavigation(user);
-  
 });
