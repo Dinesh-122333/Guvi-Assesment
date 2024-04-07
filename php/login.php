@@ -1,6 +1,6 @@
 <?php
 // connecting the Database
-require "config.php";
+require "./../assets/config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
@@ -10,29 +10,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $mysqlConn->query($checkEmailQuery);
 
     if ($result->num_rows > 0) {
+        // Set the email in the session variable
+        session_start();
+        $_SESSION['email'] = $email;
 
-        if ($redis->exists($email)) {
-            $userDataSerialized = $redis->get($email);
-            $userData = unserialize($userDataSerialized);
-            echo json_encode(array("userFound" => "true", "userData" => $userData));
+        // Fetch user data from MongoDB and echo JSON response
+        $filter = array("Email" => $email);
+        $res = $userCollection->findOne($filter);
+
+        if ($res) {
+            echo json_encode(array("userFound" => "true", "userData" => $res));
         } else {
-            $filter = array("Email" => $email);
-            $res = $userCollection->findOne($filter);
-
-            if ($res) {
-
-                $userDataSerialized = serialize($res);
-                $redis->set($email, $userDataSerialized);
-
-                $var = $redis->get($email);
-
-                $userData = unserialize($var);
-
-                echo json_encode(array("userFound" => "true", "userData" => $userData));
-            }
+            echo json_encode(array("userFound" => "false"));
         }
-    }
-    else{
+    } else {
         echo json_encode(array("userFound" => "false"));
     }
 } else {

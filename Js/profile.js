@@ -1,55 +1,83 @@
-document.addEventListener('DOMContentLoaded', function() {
-    var updateForm = document.getElementById('updateForm');
-    var emailField = document.getElementById('email');
-    
-    if (updateForm) {
+$(document).ready(function() {
+    var updateForm = $('#updateForm');
+    var emailField = $('#email');
+
+    if (updateForm.length) {
         // Fetch user data and populate the form
+
         fetchUserData();
 
-        updateForm.addEventListener('submit', function(e) {
+        updateForm.on('submit', function(e) {
             e.preventDefault();
-            var formData = new FormData(updateForm);
+            var formData = new FormData(this);
             
             // Send update request using fetch API
-            fetch('./php/update.php', {
+            $.ajax({
+                url: './php/profile.php',
                 method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    window.alert("Profile updated successfully");
-                    // Fetch and update user data after successful update
-                    fetchUserData();
-                } else {
-                    window.alert("Failed to update profile");
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    console.log(data)
+                    const datas = JSON.parse(data)
+                    console.log(datas); // Log the response data
+                    if (datas.status === "success") {
+                        if (datas.message === "Profile updated successfully") {
+                            
+                            window.alert("Profile updated successfully");
+                            // Update form fields with new data
+                            $('#firstName').val(datas.userData.Firstname);
+                            $('#lastName').val(datas.userData.Lastname);
+                            $('#phone').val(datas.userData["Phone Number"]);
+                            $('#dob').val(datas.userData["Date of Birth"]);
+                            $('#city').val(datas.userData.City);
+                            $('#age').val(datas.userData.Age);
+                        }
+                        else  {
+                            window.alert("Profile is already up to date");
+                        }  
+                    } else {
+                        // Handle error message properly
+                        var errorMessage = datas.message || "An unknown error occurred";
+                        window.alert("Failed to update profile: " + errorMessage);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    window.alert("An error occurred while updating profile.");
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
             });
         });
     } else {
-        console.error("Update form not found");
+        console.error("Update form not found. Make sure the element with ID 'updateForm' exists in your HTML.");
     }
 
     function fetchUserData() {
-        // Fetch user data from database
-        fetch('./php/get_user.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                // Populate form fields with user data
-                document.getElementById('firstName').value = data.user.Firstname;
-                document.getElementById('lastName').value = data.user.Lastname;
-                document.getElementById('email').value = data.user.Email;
-                document.getElementById('phone').value = data.user.PhoneNumber;
-            } else {
-                console.error("Failed to fetch user data");
+        // Fetch user data from database using the session variable
+        $.ajax({
+            url: './assets/get_user.php',
+            method: 'GET',
+            success: function(response) {
+                try {
+                    var userData = JSON.parse(response);
+                    // Populate input fields with user data
+                    $('#firstName').val(userData.Firstname);
+                    $('#lastName').val(userData.Lastname);
+                    $('#email').val(userData.Email);
+                    $('#phone').val(userData["Phone Number"]);
+                    $('#dob').val(userData["Date of Birth"]);
+                    $('#city').val(userData.City);
+                    $('#age').val(userData.Age);
+                } catch (error) {
+                    console.error('Error parsing JSON response:', error);
+                    window.alert("An error occurred while fetching user data.");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                window.alert("An error occurred while fetching user data.");
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
         });
     }
 });

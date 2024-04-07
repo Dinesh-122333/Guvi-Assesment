@@ -1,6 +1,6 @@
 <?php
 
-require "config.php";
+require "./../assets/config.php";
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -25,7 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$fname = $_POST['firstname'];
 		$lname = $_POST['lastname'];
 		$email = $_POST['email'];
+		$city = $_POST['city'];
 		$phone = $_POST['phone'];
+		$dob = $_POST['dob'];
+		$age = $_POST['age'];
+		$city = $_POST['city'];
+				
 
 
 		$data = array(
@@ -33,6 +38,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			"Lastname" => $lname,
 			"Email" => $email,
 			"Phone Number" => $phone,
+			"Date of Birth" => $dob,
+			"Age" => $age,
+			"City" => $city
 		);
 
 		$insert = $userCollection->insertOne($data);

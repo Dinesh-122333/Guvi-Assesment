@@ -29,7 +29,7 @@ function updateNavigation(user) {
         if (user.loggedIn) {
             var dashboardItem = document.createElement('li');
             dashboardItem.classList.add("nav-item");
-            dashboardItem.innerHTML = '<a id="dash" class="nav-link" href="./profile.html">Profile</a>';
+            dashboardItem.innerHTML = '<a id="dash" class="nav-link" style="color:sandybrown" href="./profile.html">Profile</a>';
             navigation.appendChild(dashboardItem);
 
             var logoutItem = document.createElement('li');
