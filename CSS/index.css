@@ -29,33 +29,7 @@
 }
 
 
-/* for responsive site */
-@media screen and (min-width: 991px) {
-    .title {
-        
-        padding-left:10px; 
-        padding-top: 27%;
-    }
-    .img{
-        padding: 30px 50px;
-        height: 450px;
-        width: 500px;
-    }
-}
 
-
-@media screen and (max-width: 590px) {
-    .title{
-        padding-left: 10px;
-    }
-    .img{
-        padding-top: 30px;
-        padding-left: 15px;
-    }
-    .login-page{
-        margin-left: 20px;
-    }
-}
 
 
 

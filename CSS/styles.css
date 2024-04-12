@@ -1,0 +1,48 @@
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+.h-custom {
+    height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+    .h-custom {
+    height: 100%;
+    }
+}
+
+h1 {
+    margin-left: 35%;
+    margin-top: 50px;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form-box {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.btn {
+    margin: 5px;
+}
+
+.bottom-container {
+    position:fixed; /* Fixed position keeps it at the bottom even when scrolling */
+    bottom:0; /* Position at the bottom */
+    width: 100%; /* Full width */
+    background-color: #007bff; /* Primary color as background */
+    padding: 20px; /* Add some padding for spacing */
+    box-sizing: border-box; /* Include padding and border in the total width and height */
+     /* Text color */
+}

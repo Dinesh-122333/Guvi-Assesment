@@ -1,45 +1,37 @@
 <?php
-// connecting the Database
-require "config.php";
+// Connecting to the database
+require "./../assets/config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['pwd'];
 
-    $checkEmailQuery = "SELECT * FROM login WHERE uname = '$email' AND upswd = '$password'";
-    $result = $mysqlConn->query($checkEmailQuery);
+    // Prepare and bind the SELECT statement
+    $checkEmailQuery = "SELECT * FROM login WHERE uname = ? AND upswd = ?";
+    $stmt = $mysqlConn->prepare($checkEmailQuery);
+    $stmt->bind_param("ss", $email, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
+        $data = array(
+            "Email" => $email,
+        );
+        $find = $userCollection->findOne($data);
+        if ($find) {
+            $redisKey = $email;
+            $redisValue = json_encode($find);
+            $redis->set($redisKey, $redisValue);
+            $value = $redis->get($email);
 
-        if ($redis->exists($email)) {
-            $userDataSerialized = $redis->get($email);
-            $userData = unserialize($userDataSerialized);
-            echo json_encode(array("userFound" => "true", "userData" => $userData));
+            echo json_encode(['success' => true, 'message' => 'Login successful' , "user" => $find,"value" => $value]);
         } else {
-            $filter = array("Email" => $email);
-            $res = $userCollection->findOne($filter);
-
-            if ($res) {
-
-                $userDataSerialized = serialize($res);
-                $redis->set($email, $userDataSerialized);
-
-                $var = $redis->get($email);
-
-                $userData = unserialize($var);
-
-                echo json_encode(array("userFound" => "true", "userData" => $userData));
-            }
+            echo json_encode(['success' => false, 'message' => 'data not found']);
         }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
     }
-    else{
-        echo json_encode(array("userFound" => "false"));
-    }
-} else {
-    // If the request method is not POST, return an error
-    http_response_code(405); // Method Not Allowed
-    echo "Only POST requests are allowed!";
+    
+    $mysqlConn->close();
 }
-
-$mysqlConn->close();
 ?>

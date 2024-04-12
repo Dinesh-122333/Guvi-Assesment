@@ -1,55 +1,70 @@
-document.addEventListener('DOMContentLoaded', function() {
-    var updateForm = document.getElementById('updateForm');
-    var emailField = document.getElementById('email');
-    
-    if (updateForm) {
-        // Fetch user data and populate the form
-        fetchUserData();
+$(document).ready(function() {
+    var email = localStorage.getItem('userEmail');
 
-        updateForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            var formData = new FormData(updateForm);
-            
-            // Send update request using fetch API
-            fetch('./php/update.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    window.alert("Profile updated successfully");
-                    // Fetch and update user data after successful update
-                    fetchUserData();
+    if (email) {
+        $.ajax({
+            url: './php/profile.php',
+            method: 'GET',
+            data: { email: email },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    var userData = response.data;
+                    $('#firstName').val(userData.Firstname);
+                    $('#lastName').val(userData.Lastname);
+                    $('#email').val(userData.Email);
+                    $('#phone').val(userData["Phone Number"]);
+                    $('#dob').val(userData["Date of Birth"]);
+                    $('#city').val(userData.City);
+                    $('#age').val(userData.Age);
                 } else {
-                    window.alert("Failed to update profile");
+                    console.error('Error retrieving data:', response.message);
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX error:', error);
+                window.alert("An error occurred while retrieving user data.");
+            }
+        });
+    } else {
+        console.error('Email not found in local storage.');
+    }
+
+    var updateForm = $('#updateForm');
+    if (updateForm.length) {
+        updateForm.on('submit', function(e) {
+            e.preventDefault();
+            var formData = {
+                firstName: $("#firstName").val(),
+                lastName: $("#lastName").val(),
+                email: $("#email").val(),
+                dob: $("#dob").val(),
+                age: $("#age").val(), 
+                city: $("#city").val(),
+                phone: $("#phone").val(),
+            };
+            // var formData = new FormData(this);
+            console.log(formData)
+            $.ajax({
+                method: 'POST',
+                url: './assets/update.php',
+                data: formData,
+                success: function(data) {
+                    console.log(data);
+                    var responseData = JSON.parse(data);
+                    if (responseData.status === "success") {
+                        window.alert("Profile updated successfully");
+                    } else {
+                        window.alert("Failed to update profile: " + responseData.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error:', error);
+                    window.alert("An error occurred while updating profile.");
+                }
             });
         });
     } else {
-        console.error("Update form not found");
-    }
-
-    function fetchUserData() {
-        // Fetch user data from database
-        fetch('./php/get_user.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                // Populate form fields with user data
-                document.getElementById('firstName').value = data.user.Firstname;
-                document.getElementById('lastName').value = data.user.Lastname;
-                document.getElementById('email').value = data.user.Email;
-                document.getElementById('phone').value = data.user.PhoneNumber;
-            } else {
-                console.error("Failed to fetch user data");
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        console.error("Update form not found. Make sure the element with ID 'updateForm' exists in your HTML.");
     }
 });
