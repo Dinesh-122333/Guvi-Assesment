@@ -1,6 +1,10 @@
 <?php
 
 require "./../assets/config.php";
+<<<<<<< HEAD
+=======
+
+>>>>>>> 02a9f74b9ced12f43bfbc645c5c0be4d28fe5138
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
@@ -27,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Error: " . $insertSql . "<br>" . $stmt->error;
         }
 
+<<<<<<< HEAD
         // Insert data into MongoDB
         $fname = $_POST['firstname'];
         $lname = $_POST['lastname'];
@@ -34,6 +39,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $phone = $_POST['phone'];
         $dob = $_POST['dob'];
         $age = $_POST['age'];
+=======
+		$fname = $_POST['firstname'];
+		$lname = $_POST['lastname'];
+		$email = $_POST['email'];
+		$city = $_POST['city'];
+		$phone = $_POST['phone'];
+		$dob = $_POST['dob'];
+		$age = $_POST['age'];
+		$city = $_POST['city'];
+				
+>>>>>>> 02a9f74b9ced12f43bfbc645c5c0be4d28fe5138
 
         $data = array(
             "Firstname" => $fname,
@@ -45,7 +61,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "City" => $city
         );
 
+<<<<<<< HEAD
         $insert = $userCollection->insertOne($data);
+=======
+		$data = array(
+			"Firstname" => $fname,
+			"Lastname" => $lname,
+			"Email" => $email,
+			"Phone Number" => $phone,
+			"Date of Birth" => $dob,
+			"Age" => $age,
+			"City" => $city
+		);
+>>>>>>> 02a9f74b9ced12f43bfbc645c5c0be4d28fe5138
 
         if ($insert->getInsertedCount() > 0) {
             echo "Document inserted successfully!";
